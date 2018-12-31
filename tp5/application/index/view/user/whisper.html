@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>微语</title>
+  <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+  <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+
+</head>
+<body>
+  <div class="header">
+    <div class="menu-btn">
+      <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+      <a href="{:url('index')}?userid={$userSet[0]['userid']}">
+        <span>MYBLOG</span>
+        <img src="__IMAGES__/logo.png">
+      </a>
+    </h1>
+
+    <div class="nav">
+		<a href="{:url('index')}?userid={$userSet[0]['userid']}">文章</a> <a
+			href="{:url('whisper')}?userid={$userSet[0]['userid']}" class="active">微语</a> <a
+			href="{:url('leacots')}?userid={$userSet[0]['userid']}">留言</a> <a
+			href="{:url('album')}?userid={$userSet[0]['userid']}">相册</a> <a
+			href="{:url('about')}?userid={$userSet[0]['userid']}">关于</a>
+	</div>
+
+    <p class="welcome-text">
+ 		 <a href="{:url('whisperWrite')}"><span class="name" style="color: red; font-size: 25px">我也来一句</span></a>
+    </p>
+  </div>
+
+
+  <div class="content whisper-content">
+    <div class="cont">
+      <div class="whisper-list">
+
+      
+      
+  {volist name="whisperSet" id="whisper"}     
+        <div class="item-box">
+          <div class="item">
+            <div class="whisper-title">
+              <i class="layui-icon layui-icon-date"></i>
+              <span class="hour">{$whisper.whispertime}</span>
+            </div>
+            <p class="text-cont">
+            	{$whisper.whispercontent}
+            </p>
+            <div class="img-box">         
+           {notempty name="$whisper.picturepath"}
+           						
+	            {assign name="imagepath" value="$whisper.picturepath|explode='-',###"}
+	            {assign name="c" value="$imagepath|count"}
+				{for start="0" end="$c"}
+	           			<img src="/{$imagepath[$i]}" width="210" height="138"/>           		
+			  	{/for} 						 
+		   {/notempty}
+            </div>
+
+            <div class="op-list">
+              <p class="like">
+              	<input type="hidden" value="0"/>
+              	<i class="layui-icon layui-icon-praise love"></i>
+              	<span>{$whisper.love}</span>
+              </p> 
+              <p class="edit">
+              	<i class="layui-icon layui-icon-reply-fill"></i>
+              	<span>{$whisper.commentcount}</span>
+              </p>
+              <p class="off">
+              	<span class="open">展开</span>
+              	<i class="layui-icon layui-icon-down"></i>
+              </p>
+              <input type="hidden" value="{$whisper.whisperid}"/>
+            </div>
+          </div>
+          
+                 
+          <div class="review-version layui-hide common" id="{$whisper.whisperid}">                    
+              <div class="form">
+              {if condition="$Think.session.user.image"}
+              		<img src="/{$Think.session.user.image}" width="45"/>
+			  {else /}
+			  		<img src="__IMAGES__/header2.png">
+			  {/if}                              
+                <form class="layui-form" action="whisperCommentAdd" method="post">
+                  <input type="hidden" name="whisperid" value="{$whisper.whisperid}"/>
+                  <input type="hidden" name="userid" value="{$Think.session.user.userid}"/>
+                  <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block">
+                      <textarea name="commentcontent" class="layui-textarea"></textarea>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <div class="layui-input-block" style="text-align: right;">                     
+                      <button class="layui-btn definite" onclick="submit()">確定</button>                   
+                    </div>
+                  </div>
+                </form>
+              </div>                          
+          </div>                    
+        </div>       
+ {/volist} 
+ 
+     		<div id="demo" style="text-align: center;">
+				{$whisperSet->render()}
+			</div>
+                                               
+      </div>
+      <div id="demo" style="text-align: center;"></div>
+    </div>
+  </div>
+
+  <div class="footer-wrap">
+    <div class="footer w1000">
+      <div class="qrcode">
+        <img src="__IMAGES__/erweima.jpg">
+      </div>
+      <div class="practice-mode">
+        <img src="__IMAGES__/down_img.jpg">
+        <div class="text">
+          <h4 class="title">我的联系方式</h4>
+          <p>微信<span class="WeChat">1234567890</span></p>
+          <p>手机<span class="iphone">1234567890</span></p>
+          <p>邮箱<span class="email">1234567890@qq.com</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="__JS__/jquery.min.js"></script>
+  <script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
+  <script type="text/javascript">
+ 
+   layui.config({
+      base: '__JS__/util/'
+    }).use(['element','laypage','form','menu'],function(){
+      element = layui.element,laypage = layui.laypage,form = layui.form,menu = layui.menu;         
+      menu.init();
+      menu.off();
+      menu.submit()
+    })
+    
+    $(".open").one('click',function() {
+    	var whisperId = $(this).parent().next().val();
+    	$.ajax({
+    		url:"{:url('index/user/getWhisperComment')}",
+    		type:'post',
+    		dataType:'json',
+    		data:{whisperid:whisperId},
+    		success:function(msg){
+    			
+    			$.each(msg,function(key,value){
+    				
+    				var content = "";
+	   		         content += "<div class='list-cont'>";
+	   		         content += "<div class='cont'>";
+	   		         content += "<div class='img'>";
+	   		         content += "<img src='/"+value.image+"' width='50'>";
+	   		         content += "</div>";
+	   		         content += "<div class='text'>"; 
+	   		         content += "<p class='tit'><span class='name'></span><span class='data'>"+value.commenttime+"</span></p>";
+	   		         content += "<p class='ct'>"+value.commentcontent+"</p>";
+	   		         content += "</div></div></div>";
+					 var dom = "#"+value.whisperid;
+					 //alert(dom);
+	   		        $(dom).append(content);
+    			});   			
+    		}
+    	});
+    });
+   
+   $(".love").on('click',function(){
+	   var flag = $(this).prev().val();
+	   var whisperId = $(this).parent().next().next().next().val();
+	   var love = $(this).next().text();
+	   if(flag==0){
+		   love = parseInt(love)+1;
+		   $(this).prev().val(1);
+		   
+	   }else{
+		   love = parseInt(love)-1;
+		   $(this).prev().val(0);
+	   }
+	   
+	   alert(whisperId);
+	   alert(love);
+	   alert($(this).prev().val());
+	   $.ajax({
+	   		url:"{:url('index/user/loveAdd')}",
+	   		type:'post',
+	   		dataType:'json',
+	   		data:{whisperid:whisperId,loved:love},
+	   		success:function(msg){
+	   			alert(msg);
+	   		}
+	   	});
+   	  });
+  </script>
+</body>
+</html>

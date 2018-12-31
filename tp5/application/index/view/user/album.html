@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>相册空间</title>
+  <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+  <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+   
+  
+</head>
+<body>
+  <div class="header">
+    <div class="menu-btn">
+      <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+      <a href="{:url('index')}?userid={$userSet[0]['userid']}">
+        <span>MYBLOG</span>
+        <img src="__IMAGES__/logo.png">
+      </a>
+    </h1>
+    
+    <div class="nav">
+		<a href="{:url('index')}?userid={$userSet[0]['userid']}">文章</a> 
+		<a href="{:url('whisper')}?userid={$userSet[0]['userid']}">微语</a> 
+		<a href="{:url('leacots')}?userid={$userSet[0]['userid']}">留言</a>
+		<a href="{:url('album')}?userid={$userSet[0]['userid']}" class="active">相册</a> 
+		<a href="{:url('about')}?userid={$userSet[0]['userid']}">关于</a>
+	</div>
+    
+
+	{if condition="($Think.session.user.userid == $userSet[0]['userid'])"} 
+		<div  class="dropdown" style="margin:0 90%;">
+			<a href="#"><img src="/{$Think.session.user.image}" style="border-radius:50%;width:80px"/></a>		
+	    </div>
+	 {else/}
+	 	<p class="welcome-text">
+			欢迎来到 <span class="name" style="color: red; font-size: 45px">{$userSet[0]['username']}</span>
+			的心情空间~
+		</p>	 					
+	 {/if}
+	<!-- <p class="welcome-text">			
+    			<a href="photoUpload" style="color:red;width:80px;height:20px;font-size:25px;">我想上传照片</a>   	
+    		</p> -->
+		
+	</div>
+  
+
+  <div class="album-content w1000"  id="layer-photos-demo" class="layer-photos-demo">
+    <div class="img-info">
+      <img src="__IMAGES__/xc_img1.jpg" alt="">
+      <div class="title">
+        <p class="data">今日上传<span>2018/10/10</span></p>
+        <p class="text">观赏最美的土耳其的日</p>
+      </div>
+    </div>
+    
+    <div class="img-list">
+      <div class="layui-fluid" style="padding:0">
+        <div class="layui-row layui-col-space30 space">
+                     
+ 		{volist name="photoSet" id="photo"}
+	          <div  style="width:343.33;height:379.55" class="layui-col-xs12 layui-col-sm4 layui-col-md4">
+	            <div class="item" id="layer-photos-demo">
+	              <img class="pho" src="/{$photo.photopath}" width="260" height="160">
+	              <div class="cont-text">
+	                <div class="data">{$photo.phototime}</div>
+	                <p class="address"><i class="layui-icon layui-icon-location"></i><span>{$photo.position}</span></p>
+	                <p class="briefly">{$photo.mood}</p>
+	              </div>
+	            </div>
+	          </div>
+          {/volist}
+
+        </div>
+    </div>    
+    
+  </div>
+
+	<div class="text-center">
+			{$photoSet->render()}
+	</div>
+
+
+
+  <div class="footer-wrap">
+    <div class="footer w1000">
+      <div class="qrcode">
+        <img src="__IMAGES__/erweima.jpg">
+      </div>
+      <div class="practice-mode">
+        <img src="__IMAGES__/down_img.jpg">
+        <div class="text">
+          <h4 class="title">我的联系方式</h4>
+          <p>微信<span class="WeChat">1234567890</span></p>
+          <p>手机<span class="iphone">1234567890</span></p>
+          <p>邮箱<span class="email">1234567890@qq.com</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="__JS__/jquery.min.js"></script>
+  <script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
+  <script type="text/javascript">
+  /* $(document).ready(function(){
+	  alert("dhg");
+	  $(".pho").click(function(e){
+		  alert(e.target.src);
+		  layer.photos({
+			  photos: '#layer-photos-demo'
+			  ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+			}); 
+	  });
+  }); */
+  
+ 
+  layui.config(
+      layer.photos({
+        photos: '#layer-photos-demo'
+        ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        ,tab:function(pic,layero){
+          console.log(pic,layero)
+        }
+      });
+      menu.init(); 
+    })
+  </script>
+</body>
+</html>

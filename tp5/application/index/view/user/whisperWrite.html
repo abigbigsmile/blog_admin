@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>心情发表</title>
+    <link href="__CSS__/demo.css" rel="stylesheet" type="text/css">
+
+    <script src="__JS__/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="__JS__/jquery-ui.js" type="text/javascript"></script>
+    <!--End Framework-->
+     <script src="__JS__/jquery.ffform.js" type="text/javascript"></script>
+     
+     
+    <script type="text/javascript">
+        $(document).ready(function () {
+        	//alert("upload"); 
+        	 $("#ButtonAdd").on("click", function () {
+        		 var content = "";
+                 content += "<br/><input type='checkbox' name='cbk' /><input type='file' name='image[]' value='选择照片'/><br/>";
+                 $("#TableFile").append(content);
+             });
+        	 
+        	  $("#ButtonSubtract").on("click", function () {
+                  $('input[name="cbk"]').each(function () {
+                      if (this.checked) { 
+                    	  $(this).prev().remove();
+                          $(this).next().next().remove();
+                          $(this).next().remove();
+                          $(this).remove();
+                      }
+                  });              
+              });
+        });   
+    </script>
+</head>
+<body class="flipInX animated">
+
+    <section id="getintouch">
+        <div class="container" style="border-bottom: 0;">
+            <h1>
+                <span>微语</span>
+            </h1>
+        </div>
+        <div class="container">
+            <form class="contact" action="whisperAdd?userid={$Think.session.user.userid}" method="post" id="form"  enctype="multipart/form-data">
+            <input type="hidden" name="userid" value="{$Think.session.user.userid}"/>
+            
+            
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="message">短短的一段心情吐露</label>
+                </div>
+                <div class="ctrl">
+                    <textarea id="message" name="whispercontent" rows="15" cols="10"></textarea>
+                </div>
+            </div>
+            
+            
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="email">微语图片</label>
+                </div>
+                <div class="ctrl" id="TableFile">
+                	<input type='checkbox' name='cbk' />
+                    <input type="file" name="image[]" value="选择照片"/>
+                    <input id="ButtonAdd" type="button" value="+" />
+                    <input id="ButtonSubtract" type="button" value="-" /><br/>
+                </div>
+            </div>
+       
+            <div class="row  clearfix">
+                <div class="span10 offset2">
+                    <input type="submit" name="submit" id="submit" class="submit" value="发表">
+                </div>
+            </div>
+            </form>
+
+            <div id="validation">
+            </div>
+        </div>
+    </section>
+</body>
+</html>
