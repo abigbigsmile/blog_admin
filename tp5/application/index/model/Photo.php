@@ -3,5 +3,5 @@
 	use think\Model;
 	
 	class Photo extends Model{
-		protected $pk = 'photoid';
+		protected $pk = 'photosid';
 	}

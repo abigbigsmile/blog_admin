@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>心情发表</title>
+    <link href="__CSS__/demo.css" rel="stylesheet" type="text/css">
+
+    <script src="__JS__/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="__JS__/jquery-ui.js" type="text/javascript"></script>
+    <!--End Framework-->
+    <script src="__JS__/jquery.ffform.js" type="text/javascript"></script>
+
+</head>
+<body class="flipInX animated">
+	<label><a href="{:url('about')}" style="text-decoration:none;coler:gray">返回</a></label>
+	
+	
+	<div class="demos-buttons">
+        <h3>修改密码</h3>
+        <form class="contact" action="passwordEdit" method="post" >
+	        <a href="#" class="submit">旧密码</a><input type="password" name="old" /><br/>
+	        <a href="#" class="submit">新密码</a><input type="password" name="new" /><br/>
+	        <a href="#" class="submit">密码确认</a><input type="password" name="newConfirm" /><br/>
+	        <input type="submit" value="提交修改" />
+	    </form>
+     </div>
+	
+	
+	
+    <section id="getintouch">
+        <div class="container" style="border-bottom: 0;">
+            <h1>
+                <span>修改我的信息</span>
+            </h1>
+        </div>
+        <div class="container">
+            <form class="contact" action="{:url('infoEdit')}" method="post" id="form"  enctype="multipart/form-data">
+            <input type="hidden" name="userid" value="{$Think.session.user.userid}"/>
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="name">用户名</label>
+                </div>
+                <div class="ctrl">
+                    <input type="text" id="name" name="username" value="{$Think.session.user.username}">
+                </div>
+            </div>
+            
+                      
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label>性别</label>
+                </div>    
+                    <input name="sex" type="radio" value="1">
+					<label >男</label>
+                    <input name="sex" type="radio" value="0">
+					<label >女</label>
+					<input name="sex" type="radio" checked value = "2">
+					<label >保密</label>          
+            </div>
+            
+            
+            
+			<div class="row clearfix">
+                <div class="lbl">
+                    <label for="email">
+                        	电子邮件</label>
+                </div>
+                <div class="ctrl">
+                    <input type="text" name="email" value="{$Think.session.user.email}">
+                </div>
+            </div>
+            
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="email">工作</label>
+                </div>
+                <div class="ctrl">
+                	<input type="text" name="work" value="{$Think.session.user.work}">
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="email">地址</label>
+                </div>
+                <div class="ctrl">
+                    <input type="text" name="address"  value="{$Think.session.user.address}">
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="email">我的头像</label>
+                </div>
+                <div class="ctrl">
+                	<input type="hidden" name="imgpath" value="{$Think.session.user.image}"/>
+                    <input type="file" name="image"/>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="lbl">                	
+                    <label for="email">空间背景图片</label>
+                </div>
+                <div class="ctrl">
+                	<input type="hidden" name="spaimgpath" value="{$Think.session.user.spaceimage}"/>
+                    <input type="file" name="spaceimage"/>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="message">我的一句话</label>
+                </div>
+                <div class="ctrl">
+                    <textarea name="motto" rows="2" cols="10">{$Think.session.user.motto}</textarea>                    	
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label for="message">我的一段话</label>
+                </div>
+                <div class="ctrl">
+                    <textarea id="message" name="words" rows="5" cols="10">{$Think.session.user.words}</textarea>                    	
+                </div>
+            </div>
+         
+            <div class="row  clearfix">
+                <div class="span10 offset2">
+                    <input type="submit" name="submit" id="submit" class="submit" value="确认修改">
+                </div>
+            </div>
+            </form>
+
+            <div id="validation">
+            </div>
+        </div>
+    </section>
+</body>
+</html>

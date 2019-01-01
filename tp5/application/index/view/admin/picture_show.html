@@ -1,0 +1,111 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"href="__STATIC__/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../../static/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+<link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+
+
+<title>图片展示</title>
+<link href="__STATIC__/lib/lightbox2/2.8.1/css/lightbox.css"
+	rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="header">
+		<div class="menu-btn">
+			<div class="menu"></div>
+		</div>
+		<h1 class="logo">			
+			<div  class="dropdown">
+					<a href="{:url('index/index/index')}" title="我的空间管理"><img src="/{$Think.session.user.image}" style="border-radius:50%;width:120px"/></a>		
+	    	</div>
+		</h1>
+		<div class="nav">
+			<a href="{:url('article_list')}">我的日志</a> 
+			<a href="{:url('whisper_list')}">我的微语</a> 
+			<a href="{:url('leacots_list')}">我收到的留言</a>
+			<a href="{:url('picture_list')}" class="active">我的相册</a> 
+			<a href="{:url('about')}">我的个人信息</a>
+		</div>
+
+	</div>
+
+
+
+
+	<div class="page-container">
+	
+		<a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="Hui-iconfont">&#xe68f;</i>
+		</a><br/>
+	
+	<form action="{:url('photoBatchDelete')}" method="post">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l"> 				
+				<button type="submit" onclick="submit()" class="btn btn-danger radius" >
+					<i class="Hui-iconfont">&#xe6e2;</i>批量删除
+				</button>
+			</span> 
+			<span class="r">共有图片：
+				<strong>{$photoSet|count}</strong>张
+			</span>
+		</div>
+
+		
+
+		<div class="portfolio-content">
+			<ul class="cl portfolio-area">
+
+				{volist name="photoSet" id="photo"}
+					<li class="item">
+						<div class="portfoliobox">
+							<input class="checkbox" name="photosid[]" type="checkbox" value="{$photo.photosid}">
+							<div class="picbox">
+								<a href="/{$photo.photopath}" data-lightbox="gallery"
+									data-title="{$photo.mood}"><img src="/{$photo.photopath}"></a>
+							</div>
+							<div class="textbox">{$photo.position}</div>
+						</div>
+					</li> 
+				{/volist}
+
+			</ul>
+		</div>
+	</form>
+		
+		
+		
+		
+		
+	</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+
+	<script type="text/javascript"
+		src="__STATIC__/lib/lightbox2/2.8.1/js/lightbox.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(".portfolio-area li").Huihover();
+		});
+	</script>
+</body>
+</html>

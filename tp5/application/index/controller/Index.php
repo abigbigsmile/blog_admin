@@ -23,6 +23,8 @@ class Index extends Controller
 
 	public function init(){
 		$article = new Article();
+		
+		
 		$newArticleSet = $article->limit(6)
 		->order('publictime', 'desc')
 		->select();
